@@ -4,10 +4,10 @@
 
 [![Deployment status](https://gatesman.vsrm.visualstudio.com/_apis/public/Release/badge/1d4fed9c-e9f8-438e-98fa-b43580c59c41/2/2)](https://gatesman.vsrm.visualstudio.com/_apis/public/Release/badge/1d4fed9c-e9f8-438e-98fa-b43580c59c41/2/2) -->
 
-Hosted: https://digital-core.azurewebsites.net/
+<!-- Hosted: https://digital-core.azurewebsites.net/ -->
 
 
-.NET Core 2.2 with React components. Uses Parcel for build environment of React and Sass.
+.NET Core 3 with React components. Uses Parcel for build environment of React and Sass.
 This is not a SPA, it is a .NET Core MVC with React components - see ```digital-core/ClientComponents/src/index.js``` for set up of components.
 
 Each component is mounted within an HTML element using the class "__react-root" and an id representing the name of the component to mount.

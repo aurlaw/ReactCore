@@ -8,13 +8,14 @@ const CommentBox = React.lazy(() => import('./apps/CommentBox'));
 const Privacy = React.lazy(() => import('./apps/Privacy'));
 const WebWorker = React.lazy(() => import('./apps/WebWorker'));
 const Animation = React.lazy(() => import('./apps/Animation'));
-
+const Generator = React.lazy(() => import('./apps/Generator')); 
 
 const APPS = {
     CommentBox,
     Privacy,
     WebWorker,
-    Animation
+    Animation,
+    Generator
     // App
 };
 
