@@ -8,7 +8,7 @@
 
 
 .NET Core 3 with React components. Uses Parcel for build environment of React and Sass.
-This is not a SPA, it is a .NET Core MVC with React components - see ```digital-core/ClientComponents/src/index.js``` for set up of components.
+This is not a SPA, it is a .NET Core MVC with React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components.
 
 Each component is mounted within an HTML element using the class "__react-root" and an id representing the name of the component to mount.
 
@@ -36,7 +36,7 @@ npm:
 
 ### Running with Watch:
 
-```cd src```
+```cd ReactCore```
 
 Yarn:
 
