@@ -8,7 +8,7 @@
 
 
 .NET Core 3 with React components. Uses Parcel for build environment of React and Sass.
-This is not a SPA, it is a .NET Core MVC with React components - see ```digital-core/ClientComponents/src/index.js``` for set up of components.
+This is not a SPA, it is a .NET Core MVC with React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components.
 
 Each component is mounted within an HTML element using the class "__react-root" and an id representing the name of the component to mount.
 
@@ -20,7 +20,7 @@ Each component is mounted within an HTML element using the class "__react-root" 
 ```
 
 ### Requires
-* Dotnet Core 2.2
+* .NET Core 3
 * Node 10+
 * Parcel
 
@@ -36,7 +36,7 @@ npm:
 
 ### Running with Watch:
 
-```cd src```
+```cd ReactCore```
 
 Yarn:
 
@@ -64,26 +64,6 @@ npm:
 ```
 npm run build
 ```
-
-
-
-## React SPA
-```kcloud-sample-app-react/README.md```
-
-```
-cd kcloud-sample-app-react
-npm install
-npm start
-```
-
-Use Project ID manually - ```fee035b7-c253-00ba-ed5c-d33054bd56d8```
-
-## ASP.NET MVC
-```kcloud-sample-app-net/README.md```
-
-Launch ```kcloud-sample-app-net/DancingGoat.sln``` in Visual Studio 2017
-
-
 
 
 ### Dockerize

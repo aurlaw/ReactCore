@@ -50,7 +50,7 @@ namespace ReactCore
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCookiePolicy();

@@ -275,3 +275,7 @@ npm-debug.log
 
 
 assets/appiconmaker.co_all
+
+
+# pupeteer chrome
+.local-chromium
