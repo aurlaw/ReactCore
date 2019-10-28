@@ -18,6 +18,9 @@ namespace GrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+
+            services.AddSingleton<IScreenService, ScreenService>();
+            services.AddSingleton<IStorage, StorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,7 +35,6 @@ namespace GrpcService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<CaptureService>();
 
                 endpoints.MapGet("/", async context =>
