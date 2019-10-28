@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting ;
+using ReactCore.Services;
 
 namespace ReactCore
 {
@@ -30,6 +31,7 @@ namespace ReactCore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<ICaptureService, CaptureService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

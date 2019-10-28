@@ -14,6 +14,7 @@ namespace ReactCore
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+
         }
 
         public static IHostBuilder  CreateWebHostBuilder(string[] args) =>

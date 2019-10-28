@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService.Protos";
+
+
+package Capture;
+
+
+
+// The greeting service definition.
+service Capture {
+    // Sends a greeting
+    rpc Perform (CaptureRequest) returns (CaptureReply);
+  }
+  
+  // The request message containing the user's name.
+  message CaptureRequest {
+    string name = 1;
+  }
+  
+  // The response message containing the greetings.
+  message CaptureReply {
+    string message = 1;
+  }
+  
