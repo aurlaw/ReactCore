@@ -33,8 +33,8 @@ namespace ReactCore.Controllers
                 message = result
             });  
         }
-        [HttpGet("capture")]
-        public async Task<IActionResult> Capture() 
+        [HttpPost("capture")]
+        public async Task<IActionResult> Capture([FromBody]CaptureModel message) 
         {
             var host = Request.Host;
             var scheme  = Request.Scheme;
@@ -42,7 +42,7 @@ namespace ReactCore.Controllers
             if (env.IsDevelopment()) {
                 urlHost = "http://localhost:8020";
             }
-            var url = $"{urlHost}/demo";
+            var url = $"{urlHost}/demo?m={message?.Message}";
             var demoData = await _captureService.ExecuteAsync(url);
 
             return Ok(new {
@@ -50,9 +50,11 @@ namespace ReactCore.Controllers
                 scheme = scheme,
                 host = host.Host,
                 Port = host.Port,
-                urlHost = urlHost
+                urlHost = url
             }); 
         }        
 
     }
+
+
 }

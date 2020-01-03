@@ -1,6 +1,8 @@
 @{
     Layout = "";
 }
+@model ReactCore.Models.DemoModel;
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
             <img src="/images/background.jpg" />
         </div>
         <div class="copy">
-            <p>Welcome to React Core Components </p>
+            <p>@Model.Message </p>
         </div>
 
     </div>

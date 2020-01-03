@@ -38,9 +38,9 @@ namespace ReactCore.Controllers
             return View();
         }
         [HttpGet("/[action]")]
-        public IActionResult Demo() 
+        public IActionResult Demo([FromQuery] string m) 
         {
-            var d = new Demo();
+            var d = new DemoModel{Message = m};
             return View(d);
         }
 
