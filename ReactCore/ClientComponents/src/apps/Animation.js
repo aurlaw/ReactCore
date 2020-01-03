@@ -7,6 +7,8 @@ function Animation(props) {
     return (
         <div className="component">
           Animation Name : {props.name}
+          <br/>
+          TODO
         </div>
     )
 }

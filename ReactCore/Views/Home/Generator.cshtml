@@ -8,28 +8,6 @@
 
     <div id="p_Generator" data-name="Generator Sample" class="__react-root"></div>
 
-<img id="demoImg" />
+@* <img id="demoImg" /> *@
 </section>
 
-<script>
-    async function getScreen() {
-        const response = await fetch('/api/puppeteer');
-        return await response.json();
-        
-
-    }
-    async function start() {
-        try {
-            var data = await getScreen();
-            console.log(data);
-
-            const imgData = 'data:image/jpg;base64, ' + data.message;
-            document.querySelector('#demoImg').setAttribute('src', imgData);
-        }
-        catch(e) {
-            console.error(e);
-        }
-
-    }
-    start();
-</script> 

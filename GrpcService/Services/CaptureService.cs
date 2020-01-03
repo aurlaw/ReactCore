@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using GrpcService.Protos;
 using Microsoft.Extensions.Logging;
+using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,21 @@ namespace GrpcService.Services
             _storageService = storage;
         }
 
-        public override Task<CaptureReply> Perform(CaptureRequest request, ServerCallContext context)
+        public async override Task<CaptureReply> Perform(CaptureRequest request, ServerCallContext context)
         {
-            return Task.FromResult(new CaptureReply
+            await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
-                Message = $"Capture: {request.Name}"
+                Headless = true
             });
+            var url  = request.Name;
+            var page = await browser.NewPageAsync();
+            await page.GoToAsync(url);
+            var pageData = await page.ScreenshotBase64Async(new ScreenshotOptions{Type= ScreenshotType.Jpeg, Quality= 100});
+            return new CaptureReply
+            {
+                Message = pageData
+            };
         }
 
     }

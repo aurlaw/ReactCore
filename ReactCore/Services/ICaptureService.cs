@@ -7,5 +7,8 @@ namespace ReactCore.Services
 {
     public interface ICaptureService
     {
+
+        Task<string> TestAsync(string id);
+        Task<string> ExecuteAsync(string url);
     }
 }

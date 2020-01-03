@@ -7,8 +7,8 @@
 <!-- Hosted: https://digital-core.azurewebsites.net/ -->
 
 
-.NET Core 3 with React components. Uses Parcel for build environment of React and Sass.
-This is not a SPA, it is a .NET Core MVC with React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components.
+.NET Core 3.1 with React components. Uses Parcel for build environment of React and Sass.
+This is not a SPA, it is a .NET Core MVC app utlizing individual React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components. The app also communicates with a gRPC service to showcase gRPC integration within .NET Core.
 
 Each component is mounted within an HTML element using the class "__react-root" and an id representing the name of the component to mount.
 
@@ -20,10 +20,19 @@ Each component is mounted within an HTML element using the class "__react-root" 
 ```
 
 ### Requires
-* .NET Core 3
+* .NET Core 3.1
 * Node 10+
 * Parcel
 
+### gRPC Server
+
+```
+cd GrpcService
+dotnet restore
+dotnet run
+```
+
+## React Core 
 ### Installing Parcel
 Yarn:
 
@@ -66,9 +75,11 @@ npm run build
 ```
 
 
-### Dockerize
+### TODO
 
-TODO
+Set up on Azure as two separate apps (MVC and gRPC server)
+
+Dockerize
 
 https://medium.com/greedygame-engineering/so-you-want-to-dockerize-your-react-app-64fbbb74c217
 

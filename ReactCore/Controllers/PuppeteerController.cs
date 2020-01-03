@@ -9,43 +9,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using PuppeteerSharp;
 using ReactCore.Models;
-
+using ReactCore.Services;
 namespace ReactCore.Controllers
 {
-    [Route("/api/{controller}")]
-    public class PuppeteerController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PuppeteerController : ControllerBase
     {
         private readonly IWebHostEnvironment env;
+        private readonly ICaptureService _captureService;
 
-        public PuppeteerController(IWebHostEnvironment environment) 
+        public PuppeteerController(IWebHostEnvironment environment, ICaptureService captureService) 
         {
             env = environment;    
+            _captureService = captureService;
         }
-        // [HttpGet]
-        // public IActionResult Capture() 
-        // {
-        //     return Ok(new {
-        //         message = "Testing"
-        //     });            
-        // }
-        public async Task<IActionResult> Index()
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Index(string id)
         {
-            // var d = new Demo();
-            // var demo = await this.RenderViewToStringAsync("/Views/Home/Demo.cshtml", d);
-            await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true
-            });
+            var result = await _captureService.TestAsync(id);
+            return Ok(new {
+                message = result
+            });  
+        }
+        [HttpGet("capture")]
+        public async Task<IActionResult> Capture() 
+        {
             var host = Request.Host;
             var scheme  = Request.Scheme;
             var urlHost = $"{scheme}://{host.Host}:{host.Port}";
             if (env.IsDevelopment()) {
                 urlHost = "http://localhost:8020";
             }
-            var page = await browser.NewPageAsync();
-            await page.GoToAsync($"{urlHost}/Home/demo");
-            var demoData = await page.ScreenshotBase64Async(new ScreenshotOptions{Type= ScreenshotType.Jpeg, Quality= 100});
+            var url = $"{urlHost}/demo";
+            var demoData = await _captureService.ExecuteAsync(url);
 
             return Ok(new {
                 message = demoData,
@@ -54,7 +52,7 @@ namespace ReactCore.Controllers
                 Port = host.Port,
                 urlHost = urlHost
             }); 
-        }
+        }        
 
     }
 }

@@ -8,6 +8,7 @@ using ReactCore.Models;
 
 namespace ReactCore.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -15,24 +16,28 @@ namespace ReactCore.Controllers
             return View();
         }
 
+        [HttpGet("/[action]")]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [HttpGet("/[action]")]
         public IActionResult WebWorker() 
         {
             return View();
         }
-
+        [HttpGet("/[action]")]
         public IActionResult Animation() 
         {
             return View();
         }
+        [HttpGet("/[action]")]
         public IActionResult Generator() 
         {
             return View();
         }
+        [HttpGet("/[action]")]
         public IActionResult Demo() 
         {
             var d = new Demo();

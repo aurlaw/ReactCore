@@ -16,6 +16,18 @@ namespace ReactCore.Services
         {
             _channel = GrpcChannel.ForAddress("https://localhost:5001");
         }
+
+        public Task<string> TestAsync(string id) 
+        {
+            return Task.FromResult($"Test: {id}");
+        }
+
+        public async Task<string> ExecuteAsync(string url) 
+        {
+            var captureClient = new Capture.CaptureClient(_channel);
+            var result = await captureClient.PerformAsync(new CaptureRequest{Name =url});
+            return result.Message;
+        }
     }
 }
 /*
