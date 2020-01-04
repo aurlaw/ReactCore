@@ -61,6 +61,8 @@ npm install
 npm start
 ```
 
+Point browser to http://localhost:8020
+
 ### Publishing
 Yarn:
 

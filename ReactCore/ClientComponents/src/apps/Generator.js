@@ -22,7 +22,7 @@ const Generator = (props) => {
       body: JSON.stringify(postData)
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     const imgData = 'data:image/jpg;base64, ' + data.message;
     setScreenData(imgData);
   };
@@ -40,15 +40,18 @@ const Generator = (props) => {
     return (
         <div className="component">
           <p>{props.name}</p>
-          <input name="message" type="text" value={message} size="30" 
-            onChange={evt => setMessage(evt.target.value)} placeholder="Enter Message..." />
-          <button className="btn btn-primary" onClick={doSend}>Send</button>
-          <br/>
-          {screenData ? (
-            <img src={screenData} />
-          ) : (
-            <p>Loading...</p>
-          )}
+          <div className="m-1">
+            <input name="message" type="text" value={message} size="30" 
+              onChange={evt => setMessage(evt.target.value)} placeholder="Enter Message..." />
+            <button className="btn btn-primary mx-2" onClick={doSend}>Send</button>
+          </div>
+          <div className="m-1">
+            {screenData ? (
+              <img src={screenData} />
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
         </div>
     )
 }

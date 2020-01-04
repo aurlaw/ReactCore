@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace GrpcService.Services
 {
@@ -24,19 +27,48 @@ namespace GrpcService.Services
 
         public async override Task<CaptureReply> Perform(CaptureRequest request, ServerCallContext context)
         {
+            var url  = request.Url;
+            var keyValuePairs = new NameValueCollection();
+            keyValuePairs.Add("message", request.Message);                
             await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            var options = new LaunchOptions
             {
                 Headless = true
-            });
-            var url  = request.Name;
-            var page = await browser.NewPageAsync();
-            await page.GoToAsync(url);
-            var pageData = await page.ScreenshotBase64Async(new ScreenshotOptions{Type= ScreenshotType.Jpeg, Quality= 100});
-            return new CaptureReply
-            {
-                Message = pageData
             };
+            using (var browser = await Puppeteer.LaunchAsync(options))
+            using(var page = await browser.NewPageAsync()) 
+            {
+                await page.SetRequestInterceptionAsync(true);
+                page.Request += async (sender, e) =>
+                {
+                    if(e.Request.Url != url) 
+                    {
+                        await e.Request.ContinueAsync();
+                        return;
+                    }
+                    //
+                    var payload = new Payload()
+                    {
+                        Headers = new Dictionary<string, string>{{"Content-Type", "application/x-www-form-urlencoded"}},
+                        Url = url,
+                        Method = HttpMethod.Post,
+                        PostData = String.Join("&",
+                             keyValuePairs.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(keyValuePairs[a])))
+                    };
+                    await e.Request.ContinueAsync(payload);
+                    await Console.Out.WriteLineAsync($"REQUEST: {e.Request.Method} {e.Request.Url} {payload.PostData}");
+                };
+                page.Response += async (sender, e) =>
+                {
+                    await Console.Out.WriteLineAsync($"RESPONSE: {e.Response.Url} -({e.Response.Request.Method}) {e.Response.Status:d} {e.Response.StatusText}");
+                };
+                await page.GoToAsync(url);
+                var pageData = await page.ScreenshotBase64Async(new ScreenshotOptions{Type= ScreenshotType.Jpeg, Quality= 100});
+                return new CaptureReply
+                {
+                    Message = pageData
+                };
+            }
         }
 
     }

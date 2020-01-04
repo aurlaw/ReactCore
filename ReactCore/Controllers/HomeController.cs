@@ -43,6 +43,11 @@ namespace ReactCore.Controllers
             var d = new DemoModel{Message = m};
             return View(d);
         }
+        [HttpPost("/[action]")]
+        public IActionResult Demo([FromForm] DemoModel model) 
+        {
+            return View(model);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
