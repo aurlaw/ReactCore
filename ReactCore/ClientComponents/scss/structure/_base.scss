@@ -22,6 +22,22 @@
   }
 
   .component {
-    border: 1px solid $secondary-color;
+    border: 1px solid $secondary;
     padding: 1rem;
   }
+
+  .bg-green {
+    background-color: $primary;
+  }
+  
+  .border-top {
+    border-top: 1px solid $secondary;
+  }
+  .border-bottom {
+    border-bottom: 1px solid $secondary;
+  }
+  
+  .box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(4, 90, 37, 0.05);
+  }
+  

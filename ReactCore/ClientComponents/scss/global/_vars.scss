@@ -1,6 +1,14 @@
 
-$primary-color: #60be54;
-$secondary-color: #063d1f;
+
+$primary: #60be54;
+$secondary: #063d1f;
+$info: #eff3f5;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+);
+
 
 
 

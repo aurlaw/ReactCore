@@ -1,12 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 // import {hot} from "react-hot-loader";
 //import ErrorBoundary from './ErrorBoundary';
 
 const Generator = (props) => {
   const [screenData, setScreenData] = useState(null);
+  const [formClass, setFormClass] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState("Welcome to React Core Components");
+  let formRef = useRef(null);
+
   const createScreen = async () => {
+    setIsSending(true);
+    setScreenData(null);
     const postData = {message: message};
     const response = await fetch('/api/puppeteer/capture', {
       method: 'POST',
@@ -25,25 +31,43 @@ const Generator = (props) => {
     // console.log(data);
     const imgData = 'data:image/jpg;base64, ' + data.message;
     setScreenData(imgData);
+    setIsSending(false);
+
   };
 
   useEffect(() => {
     createScreen();
   },[]);
 
-  const doSend = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(message);
-    setScreenData(null);
-    createScreen();
+    e.stopPropagation();
+    if(formRef.current.checkValidity() === false) {
+      setFormClass("was-validated");
+    }
+    else {
+      createScreen();
+    }  
   };
     return (
         <div className="component">
           <p>{props.name}</p>
           <div className="m-1">
-            <input name="message" type="text" value={message} size="30" 
-              onChange={evt => setMessage(evt.target.value)} placeholder="Enter Message..." />
-            <button className="btn btn-primary mx-2" onClick={doSend}>Send</button>
+            <form ref={formRef} name="generator" className={"needs-validation " + formClass} noValidate onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input type="text" className="form-control" id="message" name="message" placeholder="Enter Message..." value={message}
+                onChange={evt => setMessage(evt.target.value)}
+                required/>
+                <div className="invalid-feedback">
+                  Please enter your message.
+                </div>
+            </div>   
+            <button  disabled={isSending && "disabled"} type="submit" className="btn btn-primary m-1 flex-fill flex-md-grow-0">
+            Send
+            {isSending &&<span className="spinner-grow spinner-grow-sm ml-1" role="status" aria-hidden="true"></span>}
+            </button>
+            </form>
           </div>
           <div className="m-1">
             {screenData ? (
@@ -60,3 +84,17 @@ Generator.propTypes = {
   };
 
 export default Generator;
+
+/*
+          <form ref={formRef} name="contact" className={"needs-validation " + formClass} noValidate onSubmit={handleSubmit} method="POST" data-netlify="true" data-netlify-recaptcha="true">
+            <input type='hidden' name="form-name" value="contact" />
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input type="text" className="form-control" id="name" name="name" placeholder="Name" required/>
+              <div className="invalid-feedback">
+                Please enter your name.
+              </div>
+            </div>      
+
+
+*/

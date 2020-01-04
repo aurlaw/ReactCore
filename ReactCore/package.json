@@ -36,7 +36,7 @@
     "start:dotnet": "dotnet watch run",
     "build": "run-s build:parcel build:dotnet",
     "build:parcel": "parcel build ./ClientComponents/bundle.js --out-dir ./wwwroot/dist/",
-    "build:dotnet": "dotnet publish -c Release -r win-x64"
+    "build:dotnet": "dotnet publish -c Release"
   },
   "eslintConfig": {
     "extends": "react-app"
