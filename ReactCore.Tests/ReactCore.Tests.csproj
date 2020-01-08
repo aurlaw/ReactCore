@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GrpcComponents\GrpcComponents.csproj" />
-    <ProjectReference Include="..\GrpcService\GrpcService.csproj" />
     <ProjectReference Include="..\ReactCore\ReactCore.csproj" />
   </ItemGroup>
 
