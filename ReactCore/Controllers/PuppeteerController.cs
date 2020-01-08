@@ -34,7 +34,7 @@ namespace ReactCore.Controllers
             });  
         }
         [HttpPost("capture")]
-        public async Task<IActionResult> Capture([FromBody]CaptureModel model) 
+        public async Task<IActionResult> Capture([FromForm]CaptureModel model) 
         {
             var host = Request.Host;
             var scheme  = Request.Scheme;

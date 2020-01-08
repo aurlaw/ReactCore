@@ -28,7 +28,13 @@ namespace GrpcService.Services
         public async override Task<CaptureReply> Perform(CaptureRequest request, ServerCallContext context)
         {
             var url  = request.Url;
+            var imageUrl = "/images/background.jpg";
+            if(request.ImageBytes != null && !string.IsNullOrEmpty(request.ImageName )) 
+            {
+                imageUrl =  await _storageService.SaveDocument(request.ImageName, request.ImageBytes.ToByteArray());
+            }
             var keyValuePairs = new NameValueCollection();
+            keyValuePairs.Add("imageUrl", imageUrl);
             keyValuePairs.Add("message", request.Message);                
             await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
             var options = new LaunchOptions

@@ -25,9 +25,10 @@
     </style>
 </head>
 <body>
+    @Model.ImageUrl 
     <div class="cont">
         <div class="img">
-            <img src="/images/background.jpg" />
+            <img src=@Model.ImageUrl />
         </div>
         <div class="copy">
             <p>@Model.Message </p>

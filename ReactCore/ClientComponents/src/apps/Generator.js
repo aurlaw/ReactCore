@@ -9,23 +9,30 @@ const Generator = (props) => {
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState("Welcome to React Core Components");
   let formRef = useRef(null);
+  let fileRef = useRef(null);
 
   const createScreen = async () => {
     setIsSending(true);
     setScreenData(null);
-    const postData = {message: message};
+    // const postData = {message: message};
+    console.log(fileRef);
+    console.log(formRef);
+    var postData = new FormData();
+    postData.append("message", message);
+    postData.append("formFile", fileRef.current.files[0]);
+    // console.log(postData);
     const response = await fetch('/api/puppeteer/capture', {
       method: 'POST',
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },      
+      // headers: {
+      //   'Content-Type': 'application/json'
+      //   // 'Content-Type': 'application/x-www-form-urlencoded',
+      // },      
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer', // no-referrer, *client
-      body: JSON.stringify(postData)
+      body: postData
     });
     const data = await response.json();
     // console.log(data);
@@ -49,11 +56,12 @@ const Generator = (props) => {
       createScreen();
     }  
   };
+
     return (
         <div className="component">
           <p>{props.name}</p>
           <div className="m-1">
-            <form ref={formRef} name="generator" className={"needs-validation " + formClass} noValidate onSubmit={handleSubmit}>
+            <form ref={formRef} name="generator" encType="multipart/form-data" className={"needs-validation " + formClass} noValidate onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input type="text" className="form-control" id="message" name="message" placeholder="Enter Message..." value={message}
@@ -62,7 +70,11 @@ const Generator = (props) => {
                 <div className="invalid-feedback">
                   Please enter your message.
                 </div>
-            </div>   
+              </div> 
+              <div className="form-group">
+                <label htmlFor="exampleFormControlFile1">Image</label>
+                <input type="file" className="form-control-file" id="FormFile" name="FormFile" accept=".jpg,.jpeg,.webp,.png,image/*" ref={fileRef} />
+              </div>                
             <button  disabled={isSending && "disabled"} type="submit" className="btn btn-primary m-1 flex-fill flex-md-grow-0">
             Send
             {isSending &&<span className="spinner-grow spinner-grow-sm ml-1" role="status" aria-hidden="true"></span>}

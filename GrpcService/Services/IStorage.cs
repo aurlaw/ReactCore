@@ -7,6 +7,6 @@ namespace GrpcService.Services
 {
     public interface IStorage
     {
-        Task<string> SaveDocument(byte[] data);
+        Task<string> SaveDocument(string fileName, byte[] data);
     }
 }

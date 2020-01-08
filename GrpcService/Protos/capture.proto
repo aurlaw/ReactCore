@@ -17,6 +17,8 @@ service Capture {
   message CaptureRequest {
     string url = 1;
     string message = 2;
+    string imageName = 3;
+    bytes imageBytes = 4;
   }
   
   // The response message containing the greetings.

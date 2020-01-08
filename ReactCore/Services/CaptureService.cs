@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using GrpcService.Protos;
 using Grpc.Net.Client;
 using ReactCore.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Google.Protobuf;
 
 namespace ReactCore.Services
 {
@@ -28,13 +31,32 @@ namespace ReactCore.Services
 
         public async Task<string> ExecuteAsync(string url, CaptureModel model) 
         {
+
+            var imgTuple = GetUploadedImage(model.FormFile);
+
+            var request = new CaptureRequest
+            {
+                Url = url, 
+                Message = model.Message,
+            };
+            if(imgTuple.Item1 != null) 
+            {
+                request.ImageName = imgTuple.Item1;
+                request.ImageBytes = ByteString.CopyFrom(imgTuple.Item2);
+            }
             var captureClient = new Capture.CaptureClient(_channel);
-            var result = await captureClient.PerformAsync(new CaptureRequest
-                {
-                    Url = url, 
-                    Message = model.Message
-                });
+            var result = await captureClient.PerformAsync(request);
             return result.Message;
+        }
+
+        private Tuple< string, byte[]> GetUploadedImage(IFormFile file)
+        {
+            if(file == null)
+                return new Tuple<string, byte[]>(null, null);
+             using(var stream = new MemoryStream()) 
+             {
+                 return new Tuple<string, byte[]>(file.FileName, stream.ToArray());
+             }   
         }
     }
 }

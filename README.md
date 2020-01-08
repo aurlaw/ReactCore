@@ -23,9 +23,19 @@ Each component is mounted within an HTML element using the class "__react-root" 
 * .NET Core 3.1
 * Node 10+
 * Parcel
+* Azure Blob Storage
 
 ### gRPC Server
 
+#### Azure config
+
+```
+dotnet user-secrets init --project GrpcService/GrpcService.csproj
+dotnet user-secrets set "Storage:ConnectionString" "CONNECTION STRING" --project GrpcService/GrpcService.csproj
+
+```
+
+#### Running
 ```
 cd GrpcService
 dotnet restore
