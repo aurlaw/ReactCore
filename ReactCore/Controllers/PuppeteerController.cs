@@ -46,7 +46,8 @@ namespace ReactCore.Controllers
             var demoData = await _captureService.ExecuteAsync(url, model);
 
             return Ok(new {
-                message = demoData,
+                message = demoData.Item1,
+                html = demoData.Item2,
                 scheme = scheme,
                 host = host.Host,
                 Port = host.Port,

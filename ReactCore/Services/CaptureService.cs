@@ -29,10 +29,10 @@ namespace ReactCore.Services
             return Task.FromResult($"Test: {id}");
         }
 
-        public async Task<string> ExecuteAsync(string url, CaptureModel model) 
+        public async Task<Tuple<string, string>> ExecuteAsync(string url, CaptureModel model) 
         {
 
-            var imgTuple = GetUploadedImage(model.FormFile);
+            var imgTuple = await GetUploadedImage(model.FormFile);
 
             var request = new CaptureRequest
             {
@@ -42,20 +42,22 @@ namespace ReactCore.Services
             if(imgTuple.Item1 != null) 
             {
                 request.ImageName = imgTuple.Item1;
-                request.ImageBytes = ByteString.CopyFrom(imgTuple.Item2);
+                request.ImageType = imgTuple.Item2;
+                request.ImageBytes = ByteString.CopyFrom(imgTuple.Item3);
             }
             var captureClient = new Capture.CaptureClient(_channel);
             var result = await captureClient.PerformAsync(request);
-            return result.Message;
+            return new Tuple<string, string>(result.Message, result.Html);
         }
 
-        private Tuple< string, byte[]> GetUploadedImage(IFormFile file)
+        private async Task<Tuple< string, string, byte[]>> GetUploadedImage(IFormFile file)
         {
             if(file == null)
-                return new Tuple<string, byte[]>(null, null);
+                return new Tuple<string, string, byte[]>(null, null, null);
              using(var stream = new MemoryStream()) 
              {
-                 return new Tuple<string, byte[]>(file.FileName, stream.ToArray());
+                 await file.CopyToAsync(stream);
+                 return new Tuple<string, string, byte[]>(file.FileName, file.ContentType, stream.ToArray());
              }   
         }
     }

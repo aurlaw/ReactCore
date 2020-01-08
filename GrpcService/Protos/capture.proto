@@ -18,11 +18,13 @@ service Capture {
     string url = 1;
     string message = 2;
     string imageName = 3;
-    bytes imageBytes = 4;
+    string imageType = 4;
+    bytes imageBytes = 5;
   }
   
   // The response message containing the greetings.
   message CaptureReply {
     string message = 1;
+    string html = 2;
   }
   

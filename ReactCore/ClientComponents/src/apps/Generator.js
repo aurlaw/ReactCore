@@ -20,24 +20,34 @@ const Generator = (props) => {
     var postData = new FormData();
     postData.append("message", message);
     postData.append("formFile", fileRef.current.files[0]);
-    // console.log(postData);
-    const response = await fetch('/api/puppeteer/capture', {
-      method: 'POST',
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      // headers: {
-      //   'Content-Type': 'application/json'
-      //   // 'Content-Type': 'application/x-www-form-urlencoded',
-      // },      
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *client
-      body: postData
-    });
-    const data = await response.json();
-    // console.log(data);
-    const imgData = 'data:image/jpg;base64, ' + data.message;
-    setScreenData(imgData);
+    try {
+      // console.log(postData);
+      const response = await fetch('/api/puppeteer/capture', {
+        method: 'POST',
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        // headers: {
+        //   'Content-Type': 'application/json'
+        //   // 'Content-Type': 'application/x-www-form-urlencoded',
+        // },      
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: postData
+      });
+      if(response.ok) {
+        const data = await response.json();
+        // console.log(data);
+        const imgData = 'data:image/jpg;base64, ' + data.message;
+        setScreenData(imgData);  
+      } else {
+        console.log(response.status, response.statusText);
+      }
+
+    }
+    catch(e) {
+      console.error(e);      
+    }
     setIsSending(false);
 
   };

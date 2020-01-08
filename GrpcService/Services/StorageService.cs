@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Options;
+using System.IO;
 
 namespace GrpcService.Services
 {
@@ -20,7 +21,7 @@ namespace GrpcService.Services
             this.options = options.Value;
             this.logger  = logger;
         }
-        public async Task<string> SaveDocument(string fileName, byte[] data)
+        public async Task<string> SaveDocument(string fileName, string contentType, byte[] data)
         {
             logger.LogInformation($"connection: {options.ConnectionString}");
             logger.LogInformation($"container: {options.Container}");
@@ -33,7 +34,11 @@ namespace GrpcService.Services
             };
             await blobContainer.SetPermissionsAsync(permissions);
             var blockBlob = blobContainer.GetBlockBlobReference(fileName);
+            blockBlob.Properties.ContentType = contentType;
+
+            logger.LogInformation($"image: {fileName} of {contentType} ({data.Length} bytes)");
             await blockBlob.UploadFromByteArrayAsync(data, 0, data.Length);
+            logger.LogInformation($"image url:{blockBlob.Uri.AbsoluteUri} ({blockBlob.Properties.Length})");
             return blockBlob.Uri.AbsoluteUri;
         }
     }

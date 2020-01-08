@@ -10,6 +10,6 @@ namespace ReactCore.Services
     {
 
         Task<string> TestAsync(string id);
-        Task<string> ExecuteAsync(string url, CaptureModel model);
+        Task<Tuple<string, string>> ExecuteAsync(string url, CaptureModel model);
     }
 }

@@ -25,7 +25,11 @@
     </style>
 </head>
 <body>
-    @Model.ImageUrl 
+        <h2>Props</h2>
+        <ul>
+            <li>@Model.Message</li>
+            <li>@Model.ImageUrl</li>
+        </ul>
     <div class="cont">
         <div class="img">
             <img src=@Model.ImageUrl />
@@ -33,7 +37,6 @@
         <div class="copy">
             <p>@Model.Message </p>
         </div>
-
     </div>
 </body>
 </html>

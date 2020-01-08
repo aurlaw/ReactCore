@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Specialized;
 using System.Web;
+using System.IO;
 
 namespace GrpcService.Services
 {
@@ -31,7 +32,7 @@ namespace GrpcService.Services
             var imageUrl = "/images/background.jpg";
             if(request.ImageBytes != null && !string.IsNullOrEmpty(request.ImageName )) 
             {
-                imageUrl =  await _storageService.SaveDocument(request.ImageName, request.ImageBytes.ToByteArray());
+                    imageUrl =  await _storageService.SaveDocument(request.ImageName, request.ImageType, request.ImageBytes.ToArray());
             }
             var keyValuePairs = new NameValueCollection();
             keyValuePairs.Add("imageUrl", imageUrl);
@@ -68,11 +69,13 @@ namespace GrpcService.Services
                 {
                     await Console.Out.WriteLineAsync($"RESPONSE: {e.Response.Url} -({e.Response.Request.Method}) {e.Response.Status:d} {e.Response.StatusText}");
                 };
-                await page.GoToAsync(url);
+                await page.GoToAsync(url, WaitUntilNavigation.Networkidle0);
+                var htmlData = await page.GetContentAsync();
                 var pageData = await page.ScreenshotBase64Async(new ScreenshotOptions{Type= ScreenshotType.Jpeg, Quality= 100});
                 return new CaptureReply
                 {
-                    Message = pageData
+                    Message = pageData,
+                    Html = htmlData
                 };
             }
         }
