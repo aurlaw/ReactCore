@@ -17,13 +17,12 @@ namespace ReactCore.Tests
     
     public class ClientCaptureServiceTest
     {
-        const string host = "http://localhost:5000";// "https://localhost:5001";
 
         [Fact]
         public async Task TestService() 
         {
-            var mockGrpcChannel = new Mock<GrpcChannel>();
-            var service = new CaptureService();
+            var mockClient = new Mock<ICaptureClient>();
+            var service = new CaptureService(mockClient.Object);
             var result = await service.TestAsync("1");
             Assert.NotNull(result);
         } 
@@ -32,31 +31,16 @@ namespace ReactCore.Tests
         {
             var url = "http://localhost:8020/demo";
             var model = new CaptureModel{Message="Test"};
-
-/*
-            var request = new CaptureRequest
-            {
-                Url = url, 
-                Message = model.Message,
-            };
-            if(imgTuple.Item1 != null) 
-            {
-                request.ImageName = imgTuple.Item1;
-                request.ImageType = imgTuple.Item2;
-                request.ImageBytes = ByteString.CopyFrom(imgTuple.Item3);
-            }
-            var captureClient = new Capture.CaptureClient(_channel);
-            var result = await captureClient.PerformAsync(request);
-
-*/
-
             var capRequest = new CaptureRequest
             {
                 Url = url,
                 Message = model.Message
             };
-            var mockGrpcChannel = new Mock<GrpcChannel>();
-            var service = new CaptureService();
+            var mockClient = new Mock<ICaptureClient>();
+            var reply = new CaptureReply{Message = "Test", Html = "Test"};
+            mockClient.Setup(r => r.PerformAsync(capRequest)).Returns(new Grpc.Core.AsyncUnaryCall<CaptureReply>(Task.FromResult(reply), null, null, null,null));
+
+            var service = new CaptureService(mockClient.Object);
             var result = await service.ExecuteAsync(url, model);
             Assert.NotNull(result.Item1);
             Assert.NotNull(result.Item2);

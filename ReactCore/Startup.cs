@@ -32,6 +32,7 @@ namespace ReactCore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSingleton<ICaptureClient, CaptureClientService>();
             services.AddScoped<ICaptureService, CaptureService>();
 
             services.AddRouting(options => options.LowercaseUrls = true);

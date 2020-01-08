@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrpcService.Protos;
-using Grpc.Net.Client;
+// using Grpc.Net.Client;
 using ReactCore.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
@@ -13,15 +13,10 @@ namespace ReactCore.Services
 {
     public class CaptureService : ICaptureService
     {
-        const string host = "http://localhost:5000";// "https://localhost:5001";
-        private readonly GrpcChannel _channel;
-
-        public CaptureService()
+        private readonly ICaptureClient _client;
+        public CaptureService(ICaptureClient client)
         {
-            // This switch must be set before creating the GrpcChannel/HttpClient.
-            AppContext.SetSwitch(
-                "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-            _channel = GrpcChannel.ForAddress(host);
+            _client = client;
         }
 
         public Task<string> TestAsync(string id) 
@@ -45,8 +40,7 @@ namespace ReactCore.Services
                 request.ImageType = imgTuple.Item2;
                 request.ImageBytes = ByteString.CopyFrom(imgTuple.Item3);
             }
-            var captureClient = new Capture.CaptureClient(_channel);
-            var result = await captureClient.PerformAsync(request);
+            var result = await _client.PerformAsync(request);
             return new Tuple<string, string>(result.Message, result.Html);
         }
 
