@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,8 @@ namespace ReactCore.Controllers
         }
 
         [HttpGet("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Index(string id)
         {
             var result = await _captureService.TestAsync(id);
@@ -34,6 +37,7 @@ namespace ReactCore.Controllers
             });  
         }
         [HttpPost("capture")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Capture([FromForm]CaptureModel model) 
         {
             var host = Request.Host;
