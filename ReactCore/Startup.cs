@@ -12,6 +12,8 @@ using ReactCore.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Logging;
 using ReactCore.Hubs;
+using ReactCore.Services.Grpc;
+using ReactCore.Config;
 
 namespace ReactCore
 {
@@ -31,6 +33,8 @@ namespace ReactCore
             {
                 logging.AddConsole();
             });
+            services.AddOptions();
+            services.Configure<GrpcOptions>(Configuration.GetSection("Grpc"));
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -40,6 +44,7 @@ namespace ReactCore
             });
 
             services.AddSingleton<ICaptureClient, CaptureClientService>();
+            services.AddSingleton<IWeatherClient, WeatherClientService>();
             services.AddScoped<ICaptureService, CaptureService>();
 
             services.AddRouting(options => options.LowercaseUrls = true);

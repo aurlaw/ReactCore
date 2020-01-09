@@ -7,10 +7,11 @@
 <!-- Hosted: https://digital-core.azurewebsites.net/ -->
 
 
-.NET Core 3.1 with React components. Uses Parcel for build environment of React and Sass.
+.NET Core 3.1 with React components. Uses Parcel for build environment of React and Sass. Also, features integration with a demo console applications via gRPC and SignalR.
+
 This is not a SPA, it is a .NET Core MVC app utlizing individual React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components. The app also communicates with a gRPC service to showcase gRPC integration within .NET Core.
 
-Each component is mounted within an HTML element using the class "__react-root" and an id representing the name of the component to mount.
+Each component is mounted within an HTML element using the class `__react-root` and an id representing the name of the component to mount.
 
 ```HTML
     <div id="CommentBox" 
@@ -21,9 +22,9 @@ Each component is mounted within an HTML element using the class "__react-root" 
 
 ### Requires
 * .NET Core 3.1
+* Azure Blob Storage
 * Node 10+
 * Parcel
-* Azure Blob Storage
 
 ### gRPC Server
 
@@ -41,6 +42,7 @@ cd GrpcService
 dotnet restore
 dotnet run
 ```
+The service will run on http://localhost:5000
 
 ## React Core 
 ### Installing Parcel

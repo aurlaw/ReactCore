@@ -8,6 +8,7 @@ using ReactCore.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Google.Protobuf;
+using ReactCore.Services.Grpc;
 
 namespace ReactCore.Services
 {

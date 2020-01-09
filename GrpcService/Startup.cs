@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GrpcService.Config;
 using GrpcService.Services;
+using GrpcService.Services.Grpc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +52,7 @@ namespace GrpcService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<CaptureService>();
+                endpoints.MapGrpcService<WeatherService>();
 
                 endpoints.MapGet("/", async context =>
                 {

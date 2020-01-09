@@ -4,7 +4,14 @@
     <UserSecretsId>a2cd7f1d-c051-4e1d-94e2-bb1bbf9e8bfa</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Protobuf Include="Protos\capture.proto" GrpcServices="Server"/>
+    <Protobuf Include="..\Protos\capture.proto" GrpcServices="Server">
+      <Link>Protos\capture.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\Protos\weather.proto" GrpcServices="Server">
+      <Link>Protos\weather.proto</Link>
+    </Protobuf>
+
+
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.26.0"/>

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService.Protos";
+package GrpcService.Protos;
+
+// The Capture service definition.
+service Capture {
+    rpc Perform (CaptureRequest) returns (CaptureReply);
+}
+
+// The request message containing Url, message and uploaded image name, type and bytes.
+message CaptureRequest {
+  string url = 1;
+  string message = 2;
+  string imageName = 3;
+  string imageType = 4;
+  bytes imageBytes = 5;
+}
+
+// The response message containing the message and HTML representation.
+message CaptureReply {
+  string message = 1;
+  string html = 2;
+}

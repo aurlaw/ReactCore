@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 using System.Web;
 using System.IO;
 
-namespace GrpcService.Services
+namespace GrpcService.Services.Grpc
 {
     public class CaptureService : Capture.CaptureBase
     {
