@@ -10,18 +10,7 @@ function Notification(props) {
         .build();
     const [message, setMessage] = useState(null);
 
-    const connectHub = () => {
-        console.log('connecting...', hubConn);
-        hubConn.start().then(function() {
-            console.log('started hub connection...');
-            setMessage(hubConn.state);
-            // subscribe("ReactCore");
-        })
-        .catch(function (err) {
-            setMessage(hubConn.state + " " + err.toString());
-            return console.error('connectHub', err.toString());
-        });
-    };
+
     const subscribe = (name) => {
         hubConn.invoke("Subscribe", name).catch(function(err) {
             setMessage(hubConn.state + " " + err.toString());
@@ -35,15 +24,20 @@ function Notification(props) {
     });
     hubConn.onclose((err) => {
         // console.assert(connection.state === signalR.HubConnectionState.Disconnected);
-        setMessage( `Connection closed due to error "${error}". Try refreshing this page to restart the connection.`);
-        console.error('onclose', err.toString());
-        console.log('onclose');
+
+        setMessage( `Connection closed due to error "${err}". Try refreshing this page to restart the connection.`);
+        if(err) {
+            console.error('onclose', err.toString());
+        }
+        // console.log('onclose');
     });
     hubConn.onreconnecting((err) => {
         // console.assert(connection.state === signalR.HubConnectionState.Reconnecting);
-        setMessage(`Connection lost due to error "${error}". Reconnecting.`);
-        console.error('onreconnecting', err.toString());
-        console.log('onreconnecting');
+        setMessage(`Connection lost due to error "${err}". Reconnecting.`);
+        if(err) {
+            console.error('onreconnecting', err.toString());
+        }
+        // console.log('onreconnecting');
     });
     hubConn.onreconnected((connectionId) => {
         // console.assert(connection.state === signalR.HubConnectionState.Connected);
@@ -51,6 +45,19 @@ function Notification(props) {
         console.error('onreconnected', connectionId);
         console.log('onreconnected');
     });
+    // signalR connection
+    const connectHub = () => {
+        console.log('connecting...', hubConn);
+        hubConn.start().then(function() {
+            console.log('started hub connection...');
+            setMessage(hubConn.state);
+            subscribe("ReactCore");
+        })
+        .catch(function (err) {
+            setMessage(hubConn.state + " " + err.toString());
+            return console.error('connectHub', err.toString());
+        });
+    };
     useEffect(() => {
         connectHub();
       },[]);

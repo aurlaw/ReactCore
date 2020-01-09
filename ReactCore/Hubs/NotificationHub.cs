@@ -15,7 +15,7 @@ namespace ReactCore.Hubs
         }
         public async Task Subscribe(string name)
         {
-            await Clients.All.SendAsync("SubscriberAdded", name);
+            await Clients.Caller.SendAsync("SubscriberAdded", name);
         }
     }
 }
