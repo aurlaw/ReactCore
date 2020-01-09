@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting ;
 using ReactCore.Services;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Logging;
+using ReactCore.Hubs;
 
 namespace ReactCore
 {
@@ -25,6 +27,11 @@ namespace ReactCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,6 +45,7 @@ namespace ReactCore
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSignalR();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -79,9 +87,17 @@ namespace ReactCore
             //         name: "default",
             //         template: "{controller=Home}/{action=Index}/{id?}");
             // });
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<NotificationHub>("/notificationHub");
             });            
         }
     }
 }
+/*
+             app.UseSignalR(routes =>
+            {
+                routes.MapHub<TodoHub>("/todoHub");
+            });
+            */

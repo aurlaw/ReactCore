@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 // import CommentBox from './apps/CommentBox';
 // import Privacy from './apps/Privacy';
 import ProgressBar from './Progress';
+const Notification = React.lazy(() => import('./apps/Notification'));
 const CommentBox = React.lazy(() => import('./apps/CommentBox'));
 const Privacy = React.lazy(() => import('./apps/Privacy'));
 const WebWorker = React.lazy(() => import('./apps/WebWorker'));
@@ -11,6 +12,7 @@ const Animation = React.lazy(() => import('./apps/Animation'));
 const Generator = React.lazy(() => import('./apps/Generator')); 
 
 const APPS = {
+    Notification,
     CommentBox,
     Privacy,
     WebWorker,
