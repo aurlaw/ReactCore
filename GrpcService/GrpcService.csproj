@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>a2cd7f1d-c051-4e1d-94e2-bb1bbf9e8bfa</UserSecretsId>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Protobuf Include="..\Protos\capture.proto" GrpcServices="Server">

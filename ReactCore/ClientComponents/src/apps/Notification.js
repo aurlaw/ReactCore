@@ -17,11 +17,18 @@ function Notification(props) {
             return console.error('Subscribe', err.toString());
         });
     };
+    /*
+    invoke: GetWeather
+    events: WeatherError(err), WeatherReceive(data)
+
+    */
     // signalR events
     hubConn.on("SubscriberAdded", function (name) {
         setMessage(name);
         console.log('SubscriberAdded', name);
     });
+
+
     hubConn.onclose((err) => {
         // console.assert(connection.state === signalR.HubConnectionState.Disconnected);
 

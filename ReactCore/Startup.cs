@@ -46,6 +46,7 @@ namespace ReactCore
             services.AddSingleton<ICaptureClient, CaptureClientService>();
             services.AddSingleton<IWeatherClient, WeatherClientService>();
             services.AddScoped<ICaptureService, CaptureService>();
+            services.AddScoped<IWeatherService, WeatherService>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllersWithViews();

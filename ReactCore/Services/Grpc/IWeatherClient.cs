@@ -7,8 +7,8 @@ namespace ReactCore.Services.Grpc
 {
     public interface IWeatherClient
     {
-      AsyncServerStreamingCall<global::GrpcService.Protos.WeatherData> GetWeatherStream(global::Google.Protobuf.WellKnownTypes.Empty request, Metadata headers = null, System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
-      AsyncServerStreamingCall<global::GrpcService.Protos.WeatherData> GetWeatherStream(global::Google.Protobuf.WellKnownTypes.Empty request, CallOptions options);
+      AsyncServerStreamingCall<WeatherData> GetWeatherStream(Empty request, Metadata headers = null, System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+      AsyncServerStreamingCall<WeatherData> GetWeatherStream(Empty request, CallOptions options);
 
     }
 }
