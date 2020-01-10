@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {HubConnectionBuilder} from "@microsoft/signalr";
+import Moment from 'moment';
 
 
 function Notification(props) {
@@ -17,15 +18,33 @@ function Notification(props) {
             return console.error('Subscribe', err.toString());
         });
     };
-    /*
-    invoke: GetWeather
-    events: WeatherError(err), WeatherReceive(data)
+    const getWeather = () => {
+        hubConn.invoke("GetWeather").catch(function(err) {
+            setMessage(hubConn.state + " " + err.toString());
+            return console.error('GetWeather', err.toString());
+        });
+    };
 
-    */
     // signalR events
     hubConn.on("SubscriberAdded", function (name) {
         setMessage(name);
         console.log('SubscriberAdded', name);
+        getWeather();
+    });
+    hubConn.on("WeatherError", function (err) {
+        // setMessage(name);
+        console.log('WeatherError', err);
+        setMessage( `Weather Error: "${err}".`);
+        if(err) {
+            console.error('WeatherError', err);
+        }
+
+    });
+    hubConn.on("WeatherReceive", function (data) {
+        const dateTime = Moment(data.dateTime).format('dddd, MMMM Do YYYY');
+        const msg = `${dateTime}: ${data.weatherData.temperatureF}\u00b0F (${data.weatherData.temperatureC}\u00b0C) ${data.weatherData.summary}`;
+        setMessage(msg);
+        console.log('WeatherReceive', data);
     });
 
 

@@ -9,7 +9,7 @@ namespace ReactCore.Services
 {
     public interface IWeatherService
     {
-         Task GetWeatherAsync(HubCallerContext context, Action<HubClientModel<NotificationHub>, WeatherModel> action);
+         Task GetWeatherAsync(Action<WeatherModel> action);
     }
 }
 

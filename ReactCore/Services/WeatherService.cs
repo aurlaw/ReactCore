@@ -16,16 +16,14 @@ namespace ReactCore.Services
 
         private readonly ILogger<WeatherService> _logger;
         private readonly IWeatherClient _client;
-        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public WeatherService(ILogger<WeatherService> logger, IWeatherClient client, IHubContext<NotificationHub> hubContext)
+        public WeatherService(ILogger<WeatherService> logger, IWeatherClient client)
         {
             _logger = logger;
             _client = client;
-            _hubContext = hubContext;
         }
 
-        public async Task GetWeatherAsync(HubCallerContext context, Action<HubClientModel<NotificationHub>, WeatherModel> action)
+        public async Task GetWeatherAsync(Action<WeatherModel> action)
         {
             var cancelToken = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
@@ -35,13 +33,13 @@ namespace ReactCore.Services
                 await foreach(var weather in streamingCall.ResponseStream.ReadAllAsync(cancellationToken: cancelToken.Token))
                 {
                     _logger.LogInformation($"{weather.DateTime.ToDateTime():s} | {weather.Summary} | {weather.TemperatureC} C | {weather.TemperatureF} F");
-                    action(new HubClientModel<NotificationHub>(_hubContext, "NotificationGroup"), new WeatherModel(weather));
+                    action(new WeatherModel(weather));
                 }
             }
             catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
             {
-                _logger.LogInformation("stream cancelled");
-                action(new HubClientModel<NotificationHub>(_hubContext, "NotificationGroup"), new WeatherModel(ex));
+                _logger.LogInformation("Weather Stream cancelled from client");
+                action(new WeatherModel(ex));
             }
         }
     }

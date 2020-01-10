@@ -8,7 +8,6 @@ namespace ReactCore.Hubs
 
     public class NotificationHub : Hub
     {
-        private readonly string SubGroup = "NotificationGroup";
         private readonly ILogger<NotificationHub> _logger;
         private readonly IWeatherService _weatherService;
 
@@ -19,21 +18,20 @@ namespace ReactCore.Hubs
         }
         public async Task Subscribe(string name)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, SubGroup);
             await Clients.Caller.SendAsync("SubscriberAdded", name);
         }
 
         public async Task GetWeather()
         {
-            await _weatherService.GetWeatherAsync(Context, async(hub, data) => 
+            await _weatherService.GetWeatherAsync(async(data) => 
             {
                 if(data.Error != null)
                 {
-                    await hub.Proxy.SendAsync("WeatherError", data.Error.Message);
+                    await Clients.Caller.SendAsync("WeatherError", data.Error.Message);
                 }
                 if(data.WeatherData != null)
                 {
-                    await hub.Proxy.SendAsync("WeatherReceive", data.WeatherData);
+                    await Clients.Caller.SendAsync("WeatherReceive", data.WeatherData);
                 }
             });
         }

@@ -20,10 +20,12 @@ namespace GrpcService.Services.Grpc
         public WeatherService(ILogger<WeatherService> logger)
         {
             _logger = logger;
+            _logger.LogInformation("WeatherService contructor");
         }
         
         public override async Task GetWeatherStream(Empty _, IServerStreamWriter<WeatherData> responseStream, ServerCallContext context)
         {
+            _logger.LogInformation("GetWeatherStream invoked");
             var max = 20;
             var i = 0;
             var now = DateTime.UtcNow;
@@ -45,10 +47,9 @@ namespace GrpcService.Services.Grpc
             }
             if(context.CancellationToken.IsCancellationRequested)
             {
-                _logger.LogInformation("THe client cancelled request");
+                _logger.LogInformation("The client cancelled request");
             }   
         }
         
     }
 }
-//https://www.stevejgordon.co.uk/server-streaming-with-grpc-in-asp-dotnet-core
