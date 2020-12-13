@@ -21,10 +21,11 @@ Each component is mounted within an HTML element using the class `__react-root` 
 ```
 
 ### Requires
-* .NET Core 3.1
+* .NET 5
 * Azure Blob Storage
 * Node 10+
 * Parcel
+* React 
 
 ### gRPC Server
 
