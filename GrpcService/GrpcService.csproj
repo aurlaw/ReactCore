@@ -15,9 +15,9 @@
 
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.26.0"/>
-    <PackageReference Include="PuppeteerSharp" Version="2.0.0"/>
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.1"/>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.34.0"/>
+    <PackageReference Include="PuppeteerSharp" Version="2.0.4"/>
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2"/>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0"/>
   </ItemGroup>
 </Project>
