@@ -7,7 +7,7 @@
 <!-- Hosted: https://digital-core.azurewebsites.net/ -->
 
 
-.NET Core 3.1 with React components. Uses Parcel for build environment of React and Sass. Also, features integration with a demo console applications via gRPC and SignalR.
+.NET 5 with React components. Uses Parcel for build environment of React and Sass. Also, features integration with a demo console applications via gRPC and SignalR.
 
 This is not a SPA, it is a .NET Core MVC app utlizing individual React components - see ```ReactCore/ClientComponents/src/index.js``` for set up of components. The app also communicates with a gRPC service to showcase gRPC integration within .NET Core.
 

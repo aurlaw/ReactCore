@@ -3,11 +3,20 @@
 }
 
 <section>
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Front end build powered by Parcel</p>
+    <h1 class="display-4">ReactCore</h1>
+    <p>Front end build powered by Parcel and .NET 5</p>
 
+<p>.NET Core 3.1 with React components. Uses Parcel for build environment of React and Sass. Also, features integration with a demo console applications via gRPC and SignalR.</p>    
 
-    <div id="h_CommentBox" data-post_id="10" class="__react-root"></div>
+<p>This is not a SPA, it is a .NET Core MVC app utlizing individual React components - see ReactCore/ClientComponents/src/index.js for set up of components. The app also communicates with a gRPC service to showcase gRPC integration within .NET Core.</p>
+
+<p>Each component is mounted within an HTML element using the class <code>__react-root</code> and an id representing the name of the component to mount.</p>
+
+<h2>Example:</h2>
+<code>
+&lt;div id=&quot;h_CommentBox&quot; data-post_id=&quot;10&quot; data-post_comment=&quot;.NET 5, React and SignalR&quot; class=&quot;__react-root&quot;&gt;&lt;/div&gt;
+</code>
+
+    <div id="h_CommentBox" data-post_id="10" data-post_comment=".NET 5, React and SignalR" class="__react-root"></div>
 
 </section>

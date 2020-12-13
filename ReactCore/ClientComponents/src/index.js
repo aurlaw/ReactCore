@@ -11,7 +11,7 @@ const WebWorker = React.lazy(() => import('./apps/WebWorker'));
 const Animation = React.lazy(() => import('./apps/Animation'));
 const Generator = React.lazy(() => import('./apps/Generator')); 
 
-const APPS = {
+const APPS = { 
     Notification,
     CommentBox,
     Privacy,
